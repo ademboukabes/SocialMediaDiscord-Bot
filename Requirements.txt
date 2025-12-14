@@ -1,0 +1,13 @@
+discord.py>=2.3.2
+python-dotenv>=1.0.0
+aiohttp>=3.8.4
+requests>=2.31.0
+tweepy>=4.16.0
+praw>=7.7.0
+Mastodon.py>=1.6.0
+google-api-python-client>=2.97.0
+google-auth>=2.20.0
+apscheduler>=3.10.1
+sqlalchemy>=2.0.20
+loguru>=0.7.0
+python-dateutil>=2.8.2
