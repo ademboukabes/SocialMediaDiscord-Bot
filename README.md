@@ -1,5 +1,5 @@
 
-# MINI PROJECT: Social Media Tracker
+# MINI PROJECT : Social Media Tracker
 This project aims to create a bot that allows the user to connect to different Social Media platforms at Once. and be able to view and post from a simple
 discord Command .
 ## Main Components 
