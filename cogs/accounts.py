@@ -31,7 +31,7 @@ class AccountCog(commands.Cog):
         else:
             await ctx.send("Aucun compte connecté.")
 
-# ⚠️ NE PAS appeler bot.add_cog directement
-# ⚠️ Utiliser setup async pour discord.py ≥ 2.0
+#  NE PAS appeler bot.add_cog directement
+#  Utiliser setup async pour discord.py ≥ 2.0
 async def setup(bot):
     await bot.add_cog(AccountCog(bot))
