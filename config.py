@@ -23,8 +23,7 @@ REDIRECT_URI = os.getenv('REDIRECT_URI', 'http://localhost:8080/callback')
 OAUTH_PORT = 8080
 
 # Database Configuration
-MONGODB_URI = os.getenv('MONGODB_URI', 'mongodb://localhost:27017/')
-DATABASE_NAME = os.getenv('DATABASE_NAME', 'social_media_bot')
+
 
 # Security Configuration
 ENCRYPTION_KEY = os.getenv('ENCRYPTION_KEY')

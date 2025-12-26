@@ -21,19 +21,19 @@ class PostScheduler:
         if not self.is_running:
             self.scheduler.start()
             self.is_running = True
-            print('✅ Post scheduler started')
+            print('Post scheduler started')
     
     def stop(self):
         """Stop the scheduler"""
         if self.is_running:
             self.scheduler.shutdown()
             self.is_running = False
-            print('✅ Post scheduler stopped')
+            print('Post scheduler stopped')
     
     def set_facebook_callback(self, callback):
         """Set the function to call when publishing Facebook posts"""
         self.facebook_callback = callback
-        print('✅ Facebook callback registered')
+        print('Facebook callback registered')
     
     async def check_scheduled_posts(self, db):
         """Check for Facebook posts that need to be published"""
@@ -44,15 +44,15 @@ class PostScheduler:
             posts = db.get_facebook_scheduled_posts()
             
             if posts:
-                print(f'📅 Found {len(posts)} scheduled posts to publish')
+                print(f'Found {len(posts)} scheduled posts to publish')
             
             for post in posts:
                 try:
                     await self.facebook_callback(post)
                 except Exception as e:
-                    print(f'❌ Error publishing scheduled post {post.get("_id")}: {e}')
+                    print(f'Error publishing scheduled post {post.get("_id")}: {e}')
         except Exception as e:
-            print(f'❌ Error checking scheduled posts: {e}')
+            print(f'Error checking scheduled posts: {e}')
     
     def schedule_check(self, db):
         """Schedule periodic checks for posts"""
@@ -65,7 +65,7 @@ class PostScheduler:
                 id='check_facebook_posts',
                 name='Check Facebook Scheduled Posts'
             )
-            print('✅ Scheduled post checker configured (runs every 1 minute)')
+            print('Scheduled post checker configured (runs every 1 minute)')
 
 
 # Global scheduler

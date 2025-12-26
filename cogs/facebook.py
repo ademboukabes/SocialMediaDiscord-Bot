@@ -38,10 +38,10 @@ class Facebook(commands.Cog):
         """Start OAuth server and scheduler when cog loads"""
         print(' Loading Facebook cog...')
         
-        # Start OAuth server
+
         await oauth.start_server()
         
-        # Setup scheduler
+
         scheduler.set_facebook_callback(self.publish_scheduled_post)
         scheduler.schedule_check(db)
         scheduler.start()
@@ -67,17 +67,17 @@ class Facebook(commands.Cog):
             )
             return
         
-        # Generate OAuth URL
+
         auth_url = oauth.get_auth_url(server_id)
         
-        # Create future for waiting
+
         future = asyncio.Future()
         oauth.pending_auth[server_id] = future
         
-        # Send link
+
         embed = discord.Embed(
             title=" Connect Facebook Page",
-            description=f"**Step 1:** [Click here to authorize Facebook]({auth_url})\n\n**Step 2:** Select the page you want to connect\n\n⏱️ Link expires in 5 minutes",
+            description=f"**Step 1:** [Click here to authorize Facebook]({auth_url})\n\n**Step 2:** Select the page you want to connect\n\nLink expires in 5 minutes",
             color=config.COLOR_FACEBOOK
         )
         embed.add_field(
@@ -124,7 +124,7 @@ class Facebook(commands.Cog):
                 color=config.COLOR_SUCCESS
             )
             success_embed.add_field(
-                name="📝 Available Commands",
+                name="Available Commands",
                 value="`/fb-post` - Post text/link\n`/fb-post-image` - Post image\n`/fb-schedule` - Schedule post\n`/fb-recent` - View recent posts\n`/fb-stats` - Get analytics",
                 inline=False
             )
@@ -195,7 +195,7 @@ class Facebook(commands.Cog):
         
         if not account:
             await interaction.followup.send(
-                "❌ No Facebook Page connected.\n\nUse `/fb-connect` first."
+                "No Facebook Page connected.\n\nUse `/fb-connect` first."
             )
             return
         
@@ -228,10 +228,10 @@ class Facebook(commands.Cog):
                 description=message[:300] + ('...' if len(message) > 300 else ''),
                 color=config.COLOR_SUCCESS
             )
-            embed.add_field(name="📄 Page", value=account['page_name'], inline=True)
-            embed.add_field(name="🆔 Post ID", value=post_id.split('_')[1][:10] + '...', inline=True)
+            embed.add_field(name="Page", value=account['page_name'], inline=True)
+            embed.add_field(name="Post ID", value=post_id.split('_')[1][:10] + '...', inline=True)
             if link:
-                embed.add_field(name="🔗 Link", value=link, inline=False)
+                embed.add_field(name="Link", value=link, inline=False)
             embed.set_footer(text=f"Posted at {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')}")
             
             await interaction.followup.send(embed=embed)
@@ -261,7 +261,7 @@ class Facebook(commands.Cog):
         account = db.get_facebook_account(server_id)
         
         if not account:
-            await interaction.followup.send("❌ No Facebook Page connected. Use `/fb-connect` first.")
+            await interaction.followup.send("No Facebook Page connected. Use `/fb-connect` first.")
             return
         
         try:
@@ -357,8 +357,8 @@ class Facebook(commands.Cog):
                 inline=False
             )
             if link:
-                embed.add_field(name="🔗 Link", value=link, inline=False)
-            embed.add_field(name="📄 Page", value=account['page_name'], inline=True)
+                embed.add_field(name="Link", value=link, inline=False)
+            embed.add_field(name="Page", value=account['page_name'], inline=True)
             embed.set_footer(text=f"Scheduled ID: {str(post_id)[:10]}...")
             
             await interaction.response.send_message(embed=embed)
@@ -431,7 +431,7 @@ class Facebook(commands.Cog):
                         
                         embed.add_field(
                             name=f"{i}. Post from {created}",
-                            value=f"{message}{'...' if len(post.get('message', '')) > 100 else ''}\n\n👍 {likes} | 💬 {comments} | 🔄 {shares}\n[View Post]({post.get('permalink_url', '#')})",
+                            value=f"{message}{'...' if len(post.get('message', '')) > 100 else ''}\n\nLikes: {likes} | Comments: {comments} | Shares: {shares}\n[View Post]({post.get('permalink_url', '#')})",
                             inline=False
                         )
                     
@@ -550,7 +550,7 @@ class Facebook(commands.Cog):
         account = db.get_facebook_account(server_id)
         
         if not account:
-            await interaction.followup.send("❌ No Facebook Page connected. Use `/fb-connect` first.")
+            await interaction.followup.send("No Facebook Page connected. Use `/fb-connect` first.")
             return
         
         try:
@@ -615,7 +615,7 @@ class Facebook(commands.Cog):
                     )
                     
                     embed.add_field(
-                        name="👥 Fans/Likes",
+                        name="Fans/Likes",
                         value=f"{page_data.get('fan_count', 0):,}",
                         inline=True
                     )
@@ -712,7 +712,7 @@ class Facebook(commands.Cog):
                 post.get('link')
             )
             
-            db.update facebook_post_status(post['_id'], 'published', post_id)
+            db.update_facebook_post_status(post['_id'], 'published', post_id)
             print(f' Published scheduled Facebook post: {post_id}')
             
         except Exception as e:

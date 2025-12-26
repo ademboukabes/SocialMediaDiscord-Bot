@@ -11,3 +11,6 @@ apscheduler>=3.10.1
 sqlalchemy>=2.0.20
 loguru>=0.7.0
 python-dateutil>=2.8.2
+fastapi>=0.100.0
+uvicorn>=0.23.0
+python-multipart>=0.0.6

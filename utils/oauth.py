@@ -90,7 +90,7 @@ class FacebookOAuth:
         
         if error:
             error_desc = request.query.get('error_description', 'Unknown error')
-            return web.Response(text=f'❌ Authorization failed: {error_desc}')
+            return web.Response(text=f'Authorization failed: {error_desc}')
         
         if code and server_id:
             try:
@@ -107,14 +107,14 @@ class FacebookOAuth:
                 if server_id in self.pending_auth:
                     self.pending_auth[server_id].set_result(pages_data)
                 
-                return web.Response(text='✅ Facebook connected! You can close this window and return to Discord.')
+                return web.Response(text='Facebook connected! You can close this window and return to Discord.')
             except Exception as e:
-                print(f'❌ OAuth error: {e}')
+                print(f'OAuth error: {e}')
                 if server_id in self.pending_auth:
                     self.pending_auth[server_id].set_exception(e)
-                return web.Response(text=f'❌ Error: {str(e)}')
+                return web.Response(text=f'Error: {str(e)}')
         
-        return web.Response(text='❌ Invalid callback - missing code or state')
+        return web.Response(text='Invalid callback - missing code or state')
     
     async def start_server(self):
         """Start OAuth callback server"""
@@ -129,10 +129,10 @@ class FacebookOAuth:
             await self.runner.setup()
             site = web.TCPSite(self.runner, 'localhost', config.OAUTH_PORT)
             await site.start()
-            print(f'✅ OAuth callback server started: http://localhost:{config.OAUTH_PORT}')
+            print(f'OAuth callback server started: http://localhost:{config.OAUTH_PORT}')
             self.server = site
         except Exception as e:
-            print(f'❌ Failed to start OAuth server: {e}')
+            print(f'Failed to start OAuth server: {e}')
             raise
     
     async def stop_server(self):
@@ -141,7 +141,7 @@ class FacebookOAuth:
             await self.runner.cleanup()
             self.server = None
             self.runner = None
-            print('✅ OAuth server stopped')
+            print('OAuth server stopped')
 
 
 # Global OAuth handler
@@ -165,16 +165,6 @@ APP_SECRET = os.getenv("APP_SECRET")
 REDIRECT_URI = os.getenv("REDIRECT_URI")
 
 GRAPH_API_VERSION = "v20.0"
-
-from fastapi import FastAPI, Request
-from fastapi.responses import RedirectResponse, HTMLResponse
-from urllib.parse import urlencode
-import requests
-
-app = FastAPI()
-
-
-
 
 @app.get("/auth/login")
 def login_insta(discord_id: str = None):
@@ -259,7 +249,7 @@ def callback(request: Request, code: str = None, state: str = None, error: str =
 
     if state and state != "secure_random_string_123":
         try:
-            from database import get_db_connection, insert_user
+            from utils.database import get_db_connection, insert_user
             conn = get_db_connection()
             insert_user(conn, state, user_info['username'], page_token)
             conn.close()

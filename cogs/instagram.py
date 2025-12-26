@@ -1,4 +1,4 @@
-# instagram_cog.py
+
 from discord import app_commands, ui
 from discord.ext import commands
 import discord
@@ -181,7 +181,7 @@ class InstagramCog(commands.Cog):
             return
         creation_id = create_resp["id"]
 
-        # Wait until media is ready
+
         for _ in range(10):
             status = call_api({"fields": "status_code", "access_token": token}, creation_id)
             if status.get("status_code") == "FINISHED":
